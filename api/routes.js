@@ -39,7 +39,7 @@ router.get('/courses', asyncHandler(async (req, res) => {
     const courses = await Course.findAll({
         include : [
             {
-                modelName: 'User',
+                model: User,
                 as: 'user',
 
             }
