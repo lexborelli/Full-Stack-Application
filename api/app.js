@@ -2,6 +2,7 @@
 
 // load modules
 const express = require('express');
+const cors = require('cors');
 const morgan = require('morgan');
 const routes = require('./routes');
 
@@ -9,6 +10,17 @@ const { sequelize } = require('./models');
 
 const app = express(); 
 app.use(express.json());
+
+//Configure CORS options
+const corsOption = {
+  origin: 'http://localhost:5173', // react app url 
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true, // enabling credentials if needed
+};
+
+//Enable CORS
+app.use(cors(corsOption)); 
+
 
 //access to routes.js
 app.use('/api', routes);
