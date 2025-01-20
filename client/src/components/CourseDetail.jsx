@@ -35,6 +35,11 @@ const CourseDetail = () => {
         
     }, [id]); // added the condition of id
 
+
+        // "Update Course" link should navigate the user to the "/courses/:id/update" route & "return to list" navigates user back to home screen.
+        //used ternary operator, if course has an author retrieve the first and last name of author if false (no author exist) return "author not found"
+        //render the courses data an assigned it to each specific section to render to the "course detail" page.
+
     return (
         <main>
             <div className="actions--bar">
