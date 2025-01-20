@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
+//imported react-markdown to render markdown text. To change the text from being display as a string and formatting the text correctly to showcase a paragraph and list 
+import ReactMarkdown from 'react-markdown'; 
 
 const CourseDetail = () => {
 
@@ -39,7 +41,7 @@ const CourseDetail = () => {
         // "Update Course" link should navigate the user to the "/courses/:id/update" route & "return to list" navigates user back to home screen.
         //used ternary operator, if course has an author retrieve the first and last name of author if false (no author exist) return "author not found"
         //render the courses data an assigned it to each specific section to render to the "course detail" page.
-
+        // Used the React Markdown package to render the description and materialsNeeded properties as Markdown.
     return (
         <main>
             <div className="actions--bar">
@@ -68,23 +70,23 @@ const CourseDetail = () => {
                                 : "Author Not Found"
                                 }
                             </p>
-                            <p>
+                            <ReactMarkdown>
                                 {course.description}
-                            </p>
+                            </ReactMarkdown>
                         </div>
                         <div>
                             <h3 className="course--detail--title">Estimated Time</h3>
                             <p>{course.estimatedTime}</p>
                             <h3 className="course--detail--title">Materials Needed</h3>
                             <ul className="course--detail--list">
-                                <li>{course.materialsNeeded}</li>
+                                <ReactMarkdown>{course.materialsNeeded}</ReactMarkdown>
                             </ul>
                         </div>
                     </div>
                 </form>
             </div>
         </main>
-
+                                
     )
 };
 
