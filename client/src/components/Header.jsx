@@ -20,7 +20,7 @@ const Nav = () => {
                 {authUser === null ? (
                         <ul className="header--signedout">
                             <li>
-                                <a href="sign-up.html">Sign Up</a>
+                                <Link to="/signup">Sign Up</Link>
                             </li>
                             <li>
                                 <Link to="/signin">Sign In</Link>
@@ -28,9 +28,9 @@ const Nav = () => {
                         </ul>
                     ) : (
                         <ul className="header--signedin">
-                            <li>
+                            <span>
                                 Welcome, {authUser.firstName}
-                            </li>
+                            </span>
                             <li>
                                 <Link to="/signin">Sign In</Link>
                             </li>
@@ -46,7 +46,7 @@ const Header = () => {
         <header>
             <div className="wrap header--flex">
                 <h1 className="header--logo">
-                    <Link href="/">Courses</Link>
+                    <Link to="/">Courses</Link>
                 </h1>
                 <Nav />
             </div>
