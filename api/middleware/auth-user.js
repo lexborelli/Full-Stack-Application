@@ -16,29 +16,36 @@ exports.authenticateUser = async (req, res, next) => {
      // by their username (i.e. the user's "key"
      // from the Authorization header).
     if (credentials) {
-        const user = await User.findOne({ where: {emailAddress: credentials.name} });
-     
-        // If a user was successfully retrieved from the data store...
-     // Use the bcrypt npm package to compare the user's password
-     // (from the Authorization header) to the user's password
-     // that was retrieved from the data store.
-       
-        if (user) {
-            const authenticated = bcrypt
-            .compareSync(credentials.pass, user.password);
-     // so any middleware functions that follow this middleware function
-     // will have access to the user's information.
-         if (authenticated) { // If the passwords match...
-            console.log(`Authentication successful for Email Address: ${user.emailAddress} `);
-                //Store the retrieved user object on the request object
-            req.currentUser = user; 
 
+        try {
+            const user = await User.findOne({ where: {emailAddress: credentials.name} });
+     
+            // If a user was successfully retrieved from the data store...
+         // Use the bcrypt npm package to compare the user's password
+         // (from the Authorization header) to the user's password
+         // that was retrieved from the data store.
+           
+            if (user) {
+                const authenticated = bcrypt
+                .compareSync(credentials.pass, user.password);
+         // so any middleware functions that follow this middleware function
+         // will have access to the user's information.
+             if (authenticated) { // If the passwords match...
+                console.log(`Authentication successful for Email Address: ${user.emailAddress} `);
+                    //Store the retrieved user object on the request object
+                req.currentUser = user; 
+                return next();
+                } else {
+                    message = `Authentication faliure for Email Address : ${user.emailAddress} `; 
+                } 
             } else {
-                message = `Authentication faliure for Email Address : ${user.emailAddress} `; 
-            } 
-        } else {
-            message = `User not found for username: ${credentials.name}`;
+                message = `User not found for username: ${credentials.name}`;
+            }
+        } catch (error) {
+            console.error("Error with authentication:", error);
+            return res.status(500).json({ message: "server error" });
         }
+       
     } else {
         message = `Auth header not found`; 
     }
@@ -46,9 +53,5 @@ exports.authenticateUser = async (req, res, next) => {
     if (message) {
         console.warn(message); 
         res.status(401).json({ message: 'Access Denied' });
-    } else {
-    // Or if user authentication succeeded...
-     // Call the next() method.
-        next(); 
-    }
+    } 
 };

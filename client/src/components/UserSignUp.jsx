@@ -1,16 +1,21 @@
-import { useContext, useRef, useState } from "react"; 
+import { useContext, useState } from "react"; 
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios"; 
+import UserContext from "../context/UserContext";
 
 const UserSignUp = () => {
+
+    //at the top of the usersignup function, I'll get access to the signin function through the actions property
+    const { actions } = useContext(UserContext); 
+     
     //hooks
     const navigate = useNavigate();
 
     //state
-    const firstName = useRef(null);
-    const lastName = useRef(null);
-    const emailAddress = useRef(null);
-    const password = useRef(null); 
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
+    const [emailAddress, setEmailAddress] = useState('');
+    const [password, setPassword] = useState(''); 
     const [error, setErrors] = useState([]); 
 
     //eventhandlers
@@ -21,11 +26,11 @@ const UserSignUp = () => {
         //created a user variable that contains the user's first and last name, email address, and password.
 
         const user = {
-            firstName: firstName.current.value, 
-            lastName: lastName.current.value, 
-            emailAddress: emailAddress.current.value, 
-            password: password.current.value
-        }
+            firstName, 
+            lastName, 
+            emailAddress, 
+            password
+        };
 
         //created a try catch block to handle errors
 
@@ -36,17 +41,33 @@ const UserSignUp = () => {
             //if servers response status of 201 then user was created, log user friendly message to console 
             // if server return response status of 400 then I stored the data in the Api will respond with the error 
             //to catch any other response that doesn't have a status code of 201 or 400
-
+            
             if (response.status === 201) {
-            console.log(`${user.firstName} is successfully signed up and authenticated!`);
-            } else if (response.status === 400) {
-            setErrors(error.response.data);
-            } else {
-                throw new Error(); 
+                console.log(`${user.firstName} is successfully signed up and authenticated!`);
+                const signedInUser = await actions.signInUser(emailAddress, password);
+                
+                //if the user is signed in then navigate the user to the home screen
+                // if not then show a user friendly error message indicating there was a failure in signing the user up.
+                
+                if (signedInUser) {
+                    navigate("/"); 
+                } else {
+                    setErrors(["Failure to sign in user. Please try again!"]);
+                }
             }
         } catch (error) {
-            console.log(error);
-            navigate("/");
+            if (error.response) {
+               if (error.response.status === 400) {
+                console.log("400 Error: Bad Request ", error.response.data);
+                } else {
+                    console.log(`Error ${error.response.status}: , error response.data`);
+                    setErrors(["An unexpected error has occurred. Please try again."]);
+                }
+    
+            } else {
+                console.log("We did not recieve a response:", error); 
+                setErrors(["Please try again."]);
+            }
         }
     };
 
@@ -70,8 +91,9 @@ const UserSignUp = () => {
                     id="firstName" 
                     name="firstName" 
                     type="text" 
-                    ref={firstName}
-                    placeholder="First Name" 
+                    value={firstName}
+                    onChange={(e) => setFirstName(e.target.value)}
+                    placeholder="First Name"
                 />
                 <label htmlFor="lastName">
                     Last Name
@@ -80,7 +102,8 @@ const UserSignUp = () => {
                     id="lastName" 
                     name="lastName" 
                     type="text" 
-                    ref={lastName}
+                    value={lastName}
+                    onChange={(e) => setLastName(e.target.value)}
                     placeholder="Last Name" 
                 />
                 <label htmlFor="emailAddress">
@@ -90,7 +113,8 @@ const UserSignUp = () => {
                     id="emailAddress" 
                     name="emailAddress" 
                     type="email"
-                    ref={emailAddress} 
+                    value={emailAddress} 
+                    onChange={(e) => setEmailAddress(e.target.value)}
                     placeholder="Email Address" 
                 />
                 <label htmlFor="password">
@@ -100,7 +124,8 @@ const UserSignUp = () => {
                     id="password" 
                     name="password" 
                     type="password" 
-                    ref={password}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
                     placeholder="password" 
                 />
                 <button className="button" type="submit">

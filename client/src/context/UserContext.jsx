@@ -26,14 +26,15 @@ export const UserProvider = ({ children }) => {
 
             const fetchOptions = {
                 url: "http://localhost:5000/api/users",
-                method: "GET",
                 headers: {
-                    Authorization: `Basic ${encodedCredentials}`
+                    Authorization: `Basic ${encodedCredentials}`,
+                    "Content-Type": "application/json",
                 }
             };
-            const response = await axios(fetchOptions);
+            const response = await axios.get(fetchOptions);
             //logged in response to the console
-            console.log(response); 
+            console.log("Response data:", response.data);
+            console.log("Response status:", response.status); 
             
             //if server responds to axios fetch call with a a status of 200 then we know the user was authenticated and the response contains the user's data, well store the user's info in a variable called user
             // set the AuthUser state equal to the user's data, returned user 
@@ -41,13 +42,15 @@ export const UserProvider = ({ children }) => {
 
             if (response.status === 200) {
                 const user = response.data; 
+                user.authToken = encodedCredentials;
                 setAuthUser(user); 
                 return user;
             } else if (response.status === 401) {
+                console.log("User is not authorized. Invalid credentials.");
                 return null; 
             }
         } catch (error) {
-            console.error("Sign in failed", error);
+            console.error("Sign in failed", error.response.data || error.message);
         }
         
         
