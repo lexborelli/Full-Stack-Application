@@ -25,13 +25,12 @@ export const UserProvider = ({ children }) => {
             const encodedCredentials = btoa(`${emailAddress}:${password}`);
 
             const fetchOptions = {
-                url: "http://localhost:5000/api/users",
                 headers: {
                     Authorization: `Basic ${encodedCredentials}`,
-                    "Content-Type": "application/json",
-                }
+                    "Content-Type": "application/json; charset=utf-8",
+                },
             };
-            const response = await axios.get(fetchOptions);
+            const response = await axios.get("http://localhost:5000/api/users", fetchOptions);
             //logged in response to the console
             console.log("Response data:", response.data);
             console.log("Response status:", response.status); 

@@ -37,14 +37,13 @@ const UserSignIn = () => {
         try {
             const user = await actions.signInUser(emailAddress, password);
             if(user) {
-                console.log("Success! User is signed in!");
+                console.log("Success! User is signed in!", user);
                 navigate("/");
             } else {
                 setErrors(["Sign-in was unsuccessful"]);
             }
         } catch(error) {
             console.log(error);
-            navigate("/error");
         }
     };
 

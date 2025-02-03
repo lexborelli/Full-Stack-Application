@@ -36,14 +36,23 @@ exports.authenticateUser = async (req, res, next) => {
                 req.currentUser = user; 
                 return next();
                 } else {
-                    message = `Authentication faliure for Email Address : ${user.emailAddress} `; 
+                    message = `Authentication faliure for Email Address : ${user.emailAddress}`; 
                 } 
             } else {
+                if (req.path === "/api/users" && req.method === "POST") {
+                    req.body = {
+                        ...req.body,
+                        emailAddress: credentials.name,
+                        password: credentials.pass
+                    };
+                    return next();
+            } else {
                 message = `User not found for username: ${credentials.name}`;
+                }
             }
         } catch (error) {
             console.error("Error with authentication:", error);
-            return res.status(500).json({ message: "server error" });
+            return res.status(500).json({ message: "server" });
         }
        
     } else {
