@@ -39,7 +39,7 @@ const Courses = () => {
 
                 ))}
 
-                <Link className="course--module course--add--module" href="create-course.html">
+                <Link className="course--module course--add--module" to="/createcourse">
                     <span className="course--add--title">
                         <svg
                             version="1.1"
