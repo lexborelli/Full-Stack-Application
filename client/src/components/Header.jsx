@@ -32,7 +32,7 @@ const Nav = () => {
                                 Welcome, {authUser.firstName}
                             </span>
                             <li>
-                                <Link to="/signin">Sign In</Link>
+                                <Link to="/signout">Sign Out</Link>
                             </li>
                         </ul>
                     )

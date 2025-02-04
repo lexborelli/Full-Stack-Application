@@ -13,7 +13,7 @@ export const UserProvider = ({ children }) => {
     const [authUser, setAuthUser] = useState(null);
       
 
-    //signinUser & signOutUser
+    //signinUser 
     const signInUser = async (emailAddress, password) => {
         
         //created try catch block to deal with errors
@@ -54,7 +54,13 @@ export const UserProvider = ({ children }) => {
         
         
     };
+
+    const signOutUser = () => {
+        setAuthUser(null); 
+    };
     
+
+
 
     //Provided the signInUser function and authUser state to the UserContext
     //passed UserContext.Provider the value prop so the SignInUser data provided will be accessible to any component in the app
@@ -65,7 +71,8 @@ export const UserProvider = ({ children }) => {
             value ={{
                 authUser,
                 actions: {
-                    signInUser
+                    signInUser, 
+                    signOutUser
                 },
             }}
         > 
