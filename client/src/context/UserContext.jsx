@@ -3,6 +3,8 @@ import { createContext } from "react";
 import { useState } from "react";
 import PropTypes from "prop-types";
 import axios from "axios";
+import Cookies from "js-cookie";
+
 //declare varible named user context and set it equal to createcontext with default value set to null
 
  const UserContext = createContext(null); 
@@ -10,7 +12,12 @@ import axios from "axios";
 // created Provider component as a function named UserProvider 
 
 export const UserProvider = ({ children }) => {
-    const [authUser, setAuthUser] = useState(null);
+    
+    //retrieve the value of the cookie using cookies.get, which takes a cookie's name as a parameter
+    // set authUser initial state based on the existence of an authenticatedUser cookie.
+    // in authUser state declaration, i'll update the initial value to equal the cookie's value if the authenticatedUser cookie exists, or null if the cookie doesn't exist. 
+    const cookie = Cookies.get("authenticatedUser");
+    const [authUser, setAuthUser] = useState(cookie ? JSON.parse(cookie) : null);
       
 
     //signinUser 
@@ -28,6 +35,7 @@ export const UserProvider = ({ children }) => {
                 headers: {
                     Authorization: `Basic ${encodedCredentials}`,
                     "Content-Type": "application/json; charset=utf-8",
+                    
                 },
             };
             const response = await axios.get("http://localhost:5000/api/users", fetchOptions);
@@ -38,11 +46,13 @@ export const UserProvider = ({ children }) => {
             //if server responds to axios fetch call with a a status of 200 then we know the user was authenticated and the response contains the user's data, well store the user's info in a variable called user
             // set the AuthUser state equal to the user's data, returned user 
             // else if the server response with a status code of 401 that means the user was not authenticated
+            // created a cookie to store the authenticated user, set authenticatedUser as cookie's name, specified the string value to store in the cookie in as the second argument,set expiration as value one so that it expires in one day from now as last argument    
 
             if (response.status === 200) {
                 const user = response.data; 
                 user.authToken = encodedCredentials;
                 setAuthUser(user); 
+                Cookies.set("authenticatedUser", JSON.stringify(user), {expires: 1});
                 return user;
             } else if (response.status === 401) {
                 console.log("User is not authorized. Invalid credentials.");
