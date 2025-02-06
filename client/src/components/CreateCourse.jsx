@@ -50,8 +50,7 @@ const CreateCourse = () => {
             });
             if (response.status === 201) {
                 console.log(`${course.title} has been successfully created`);
-                const courseId  = response.data.id; 
-                navigate(`/courses/${courseId}`);
+               navigate('/');
             } else {
                 console.log("Failure to create course. Please try again.");
             }
