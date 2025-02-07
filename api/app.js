@@ -32,6 +32,7 @@ app.use('/api', routes);
     // all asynchronous calls made with sequelize
     await sequelize.authenticate();
     console.log('Connection to database successful!');
+    await sequelize.sync();
   } catch(error) {
     // catch and display Sequelize validation errors
     console.error('Unable to connect to the database:', error);
