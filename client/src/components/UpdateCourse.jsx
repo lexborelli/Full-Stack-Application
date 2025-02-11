@@ -7,9 +7,7 @@ const UpdateCourse = () => {
     const navigate = useNavigate(); 
 
     //state
-    const [course, setCourse] = useState([]);
-    
-    const [form, setForm] = useState({
+    const [course, setCourse] = useState({
         title: "",
         description: "", 
         estimatedTime: "", 
@@ -28,20 +26,7 @@ const UpdateCourse = () => {
             try {
                 //handle succes
                 const response = await axios.get(`http://localhost:5000/api/courses/${id}`);
-                
-                if (response.status === 200) {
-                    const data = await response.json(); 
-
-                    setCourse(data); 
-
-                    setForm({
-                        title: data.title, 
-                        description: data.description,
-                        estimatedTime: data.estimatedTime || "",
-                        materialsNeeded: data.materialsNeeded || ""
-                    });
-                }
-                
+                setCourse(response.data);
             } catch (error) {
                 // catch error
                 console.error('Error fetching Course id', error)
@@ -85,14 +70,14 @@ const UpdateCourse = () => {
                             id="courseTitle"
                             name="courseTitle"
                             type="text"
-                            value={form.title}
+                            value={course.title}
                          />
                         <p>By Joe Smith</p>
                         <label htmlFor="courseDescription">Course Description</label>
                         <textarea
                         id="courseDescription"
                         name="courseDescription"
-                        value={form.description}
+                        value={course.description}
                         />
                     </div>
                     <div>
@@ -101,13 +86,13 @@ const UpdateCourse = () => {
                             id="estimatedTime"
                             name="estimatedTime"
                             type="text"
-                            value={form.estimatedTime}
+                            value={course.estimatedTime}
                         />
                         <label htmlFor="materialsNeeded">Materials Needed</label>
                         <textarea
                             id="materialsNeeded"
                             name="materialsNeeded"
-                            value={form.materialsNeeded} 
+                            value={course.materialsNeeded} 
                         
                         />
                     </div>
