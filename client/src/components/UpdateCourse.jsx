@@ -1,4 +1,78 @@
+import axios from "axios";
+import { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+
 const UpdateCourse = () => {
+
+    const navigate = useNavigate(); 
+
+    //state
+    const [course, setCourse] = useState([]);
+    
+    const [form, setForm] = useState({
+        title: "",
+        description: "", 
+        estimatedTime: "", 
+        materialsNeeded: "", 
+
+    });
+    
+    const [error, setError] = useState([]); 
+    //course id
+    const { id } = useParams();
+
+    //used useEffect() to fetch data with the help of axios which was imported to fetch courses data from api folder, gave axios access to course id endpoint to showcase specific courses
+
+    useEffect(() => {
+        const fetchCourse = async () => {
+            try {
+                //handle succes
+                const response = await axios.get(`http://localhost:5000/api/courses/${id}`);
+                
+                if (response.status === 200) {
+                    const data = await response.json(); 
+
+                    setCourse(data); 
+
+                    setForm({
+                        title: data.title, 
+                        description: data.description,
+                        estimatedTime: data.estimatedTime || "",
+                        materialsNeeded: data.materialsNeeded || ""
+                    });
+                }
+                
+            } catch (error) {
+                // catch error
+                console.error('Error fetching Course id', error)
+
+            }
+        };
+        if (id) {
+            // if matches course id then display the course fetched
+            fetchCourse(); 
+        } else {
+            // if is not there then display user friendly message in console to showcase error
+            console.log('Error fetching specific course');
+        }
+
+        
+    }, [id]); // added the condition of id
+    
+    
+    
+                                                                                                                                                                                                                                             
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+
+
+    }; 
+
+    // cancel button event handler , navigate user back to root route
+    const handleCancel = (event) => {
+        event.preventDefault(); 
+        navigate("/");
+    };
 
     return ( 
         <div className="wrap">
@@ -11,16 +85,14 @@ const UpdateCourse = () => {
                             id="courseTitle"
                             name="courseTitle"
                             type="text"
-                            defaultValue="Build a Basic Bookcase"
+                            value={form.title}
                          />
                         <p>By Joe Smith</p>
                         <label htmlFor="courseDescription">Course Description</label>
                         <textarea
                         id="courseDescription"
                         name="courseDescription"
-                        defaultValue={
-                            "High-end furniture projects are great to dream about. But unless you have a well-equipped shop and some serious woodworking experience to draw on, it can be difficult to turn the dream into a reality.\n\nNot every piece of furniture needs to be a museum showpiece, though. Often a simple design does the job just as well and the experience gained in completing it goes a long way toward making the next project even better.\n\nOur pine bookcase, for example, features simple construction and it's designed to be built with basic woodworking tools. Yet, the finished project is a worthy and useful addition to any room of the house. While it's meant to rest on the floor, you can convert the bookcase to a wall-mounted storage unit by leaving off the baseboard. You can secure the cabinet to the wall by screwing through the cabinet cleats into the wall studs.\n\nWe made the case out of materials available at most building-supply dealers and lumberyards, including 1/2 x 3/4-in. parting strip, 1 x 2, 1 x 4 and 1 x 10 common pine and 1/4-in.-thick lauan plywood. Assembly is quick and easy with glue and nails, and when you're done with construction you have the option of a painted or clear finish.\n\nAs for basic tools, you'll need a portable circular saw, hammer, block plane, combination square, tape measure, metal rule, two clamps, nail set and putty knife. Other supplies include glue, nails, sandpaper, wood filler and varnish or paint and shellac.\n\nThe specifications that follow will produce a bookcase with overall dimensions of 10 3/4 in. deep x 34 in. wide x 48 in. tall. While the depth of the case is directly tied to the 1 x 10 stock, you can vary the height, width and shelf spacing to suit your needs. Keep in mind, though, that extending the width of the cabinet may require the addition of central shelf supports."
-                        }
+                        value={form.description}
                         />
                     </div>
                     <div>
@@ -29,15 +101,14 @@ const UpdateCourse = () => {
                             id="estimatedTime"
                             name="estimatedTime"
                             type="text"
-                            defaultValue="14 hours"
+                            value={form.estimatedTime}
                         />
                         <label htmlFor="materialsNeeded">Materials Needed</label>
                         <textarea
                             id="materialsNeeded"
                             name="materialsNeeded"
-                            defaultValue={
-                                "* 1/2 x 3/4 inch parting strip\n\n* 1 x 2 common pine\n\n* 1 x 4 common pine\n\n* 1 x 10 common pine\n\n* 1/4 inch thick lauan plywood\n\n* Finishing Nails\n\n* Sandpaper\n\n* Wood Glue\n\n* Wood Filler\n\n* Minwax Oil Based Polyurethane"
-                            }
+                            value={form.materialsNeeded} 
+                        
                         />
                     </div>
                     </div>
@@ -46,7 +117,7 @@ const UpdateCourse = () => {
                     </button>
                     <button
                         className="button button-secondary"
-                        onClick=""
+                        onClick={handleCancel}
                     >
                         Cancel
                     </button>

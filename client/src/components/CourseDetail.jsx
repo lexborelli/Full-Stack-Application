@@ -27,7 +27,7 @@ const CourseDetail = () => {
             }
         };
         if (id) {
-            // if matches course id then deisplay the course fetched
+            // if matches course id then display the course fetched
             fetchCourse(); 
         } else {
             // if is not there then display user friendly message in console to showcase error
