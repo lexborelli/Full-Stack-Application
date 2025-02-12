@@ -6,7 +6,7 @@ const UpdateCourse = () => {
 
     const navigate = useNavigate(); 
 
-    //state
+    // course holds state value with 4 properties 
     const [course, setCourse] = useState({
         title: "",
         description: "", 
@@ -44,7 +44,22 @@ const UpdateCourse = () => {
         
     }, [id]); // added the condition of id
     
-    
+    //created a function called handleChange that will update the course state while leeping all existing values 
+    //extracting name and value from the event object, this is triggered when the user types in the input field
+    //the name attribute of the input field will change with the current value the user enters
+    //passing callback to setCourse to update the most recent state
+    //used spread operator with previousCourse to individualize each element to help create a new copy with the updated values the user types 
+
+    const handleChange = (e) => {
+        
+        const { name, value } = e.target; 
+        
+        setCourse(prevCourse => ({
+            ...prevCourse,
+            [name]: value
+        }));
+
+    };
     
                                                                                                                                                                                                                                              
     const handleSubmit = async (event) => {
@@ -71,6 +86,7 @@ const UpdateCourse = () => {
                             name="courseTitle"
                             type="text"
                             value={course.title}
+                            onChange={handleChange}
                          />
                         <p>By Joe Smith</p>
                         <label htmlFor="courseDescription">Course Description</label>
@@ -78,6 +94,7 @@ const UpdateCourse = () => {
                         id="courseDescription"
                         name="courseDescription"
                         value={course.description}
+                        onChange={handleChange}
                         />
                     </div>
                     <div>
@@ -87,12 +104,14 @@ const UpdateCourse = () => {
                             name="estimatedTime"
                             type="text"
                             value={course.estimatedTime}
+                            onChange={handleChange}
                         />
                         <label htmlFor="materialsNeeded">Materials Needed</label>
                         <textarea
                             id="materialsNeeded"
                             name="materialsNeeded"
                             value={course.materialsNeeded} 
+                            onChange={handleChange}
                         
                         />
                     </div>
