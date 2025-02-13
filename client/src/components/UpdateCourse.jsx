@@ -88,9 +88,9 @@ const UpdateCourse = () => {
 
                 },
             }); 
-            if (response.status === 200) {
+            if (response.status === 204) {
                 console.log (`You have successfully updated the ${course.title} course`);
-                navigate(`/courses/${id}`);
+                navigate('/courses/:id');
             } else {
                 console.log('There was a problem with updating the course. Please try again!');
             }
