@@ -16,7 +16,6 @@ const UpdateCourse = () => {
         description: "", 
         estimatedTime: "", 
         materialsNeeded: "", 
-
     });
     
     const [error, setError] = useState([]); 
@@ -25,7 +24,6 @@ const UpdateCourse = () => {
 
     //used useEffect() to fetch data with the help of axios which was imported to fetch courses data from api folder, gave axios access to course id endpoint to showcase specific courses
     useEffect(() => {
-
 
     //used fetch data with the help of axios which was imported to fetch courses data from api folder, gave axios access to course id endpoint to showcase specific courses
 
@@ -70,6 +68,9 @@ const UpdateCourse = () => {
     
          
     //sending a put request to rest API's /api/cpurses/:id endpoint with the updated courses's title, description, estimated time, and materials needed for when the form is being submitted
+    // if the response status returns a 204 "No Content", meaning that the server successfully processed the clients request to change the course's title, description, materialsNeeded, and estimatedTime inputed by the user
+    // the the user will be redirected to the specific course page that they changed to see that it was successfully changed, a console log message will display that the course was successfully changed
+    //else, if the course was not updated or successfully changed then a console.log message will indicate that there was a problem
     const handleSubmit = async (event) => {
         event.preventDefault();
 
@@ -103,7 +104,7 @@ const UpdateCourse = () => {
 
     }; 
 
-    // cancel button event handler , navigate user back to root route
+    // cancel button event handler , navigates user back to root route
     const handleCancel = (event) => {
         event.preventDefault(); 
         navigate("/");
