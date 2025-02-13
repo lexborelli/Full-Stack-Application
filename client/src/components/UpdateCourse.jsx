@@ -1,9 +1,13 @@
 import axios from "axios";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import UserContext from "../context/UserContext"; 
 
 const UpdateCourse = () => {
 
+    const { authUser } = useContext(UserContext);
+
+    //navigation hook
     const navigate = useNavigate(); 
 
     // course holds state value with 4 properties 
@@ -20,8 +24,11 @@ const UpdateCourse = () => {
     const { id } = useParams();
 
     //used useEffect() to fetch data with the help of axios which was imported to fetch courses data from api folder, gave axios access to course id endpoint to showcase specific courses
-
     useEffect(() => {
+
+
+    //used fetch data with the help of axios which was imported to fetch courses data from api folder, gave axios access to course id endpoint to showcase specific courses
+
         const fetchCourse = async () => {
             try {
                 //handle succes
@@ -43,28 +50,56 @@ const UpdateCourse = () => {
 
         
     }, [id]); // added the condition of id
-    
+            
     //created a function called handleChange that will update the course state while leeping all existing values 
     //extracting name and value from the event object, this is triggered when the user types in the input field
     //the name attribute of the input field will change with the current value the user enters
     //passing callback to setCourse to update the most recent state
     //used spread operator with previousCourse to individualize each element to help create a new copy with the updated values the user types 
 
-    const handleChange = (e) => {
+    const handleChange = (event) => {
         
-        const { name, value } = e.target; 
+        const { name, value } = event.target; 
         
-        setCourse(prevCourse => ({
+        setCourse((prevCourse) => ({
             ...prevCourse,
             [name]: value
         }));
 
     };
     
-                                                                                                                                                                                                                                             
+         
+    //sending a put request to rest API's /api/cpurses/:id endpoint with the updated courses's title, description, estimated time, and materials needed for when the form is being submitted
     const handleSubmit = async (event) => {
         event.preventDefault();
 
+        try {
+            const response = await axios.put(`http://localhost:5000/api/courses/${id}`, 
+                {
+                    title: course.title,
+                    description: course.description,
+                    estimatedTime: course.estimatedTime,
+                    materialsNeeded: course.materialsNeeded,
+                    userId: authUser.id
+                }, {
+                headers: {
+                    "Content-Type": "application/json; charset=utf-8",
+                    Authorization: `Basic ${authUser.authToken}`,
+
+                },
+            }); 
+            if (response.status === 200) {
+                console.log (`You have successfully updated the ${course.title} course`);
+                navigate(`/courses/${id}`);
+            } else {
+                console.log('There was a problem with updating the course. Please try again!');
+            }
+            
+        } catch (error) {
+            setError(['An unexpected error has occurred.']);
+            
+        };
+        
 
     }; 
 
@@ -77,13 +112,13 @@ const UpdateCourse = () => {
     return ( 
         <div className="wrap">
             <h2>Update Course</h2>
-            <form>
+            <form onSubmit={handleSubmit}> 
                 <div className="main--flex">
                     <div>
                         <label htmlFor="courseTitle">Course Title</label>
                         <input
                             id="courseTitle"
-                            name="courseTitle"
+                            name="title"
                             type="text"
                             value={course.title}
                             onChange={handleChange}
@@ -92,7 +127,7 @@ const UpdateCourse = () => {
                         <label htmlFor="courseDescription">Course Description</label>
                         <textarea
                         id="courseDescription"
-                        name="courseDescription"
+                        name="description"
                         value={course.description}
                         onChange={handleChange}
                         />
