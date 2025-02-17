@@ -1,7 +1,8 @@
 import axios from "axios";
 import { useState, useContext, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { data, useNavigate } from "react-router-dom";
 import UserContext from "../context/UserContext";
+import ErrorsDisplay from "./ErrorsDisplay";
 
 const CreateCourse = () => {
 
@@ -24,7 +25,7 @@ const CreateCourse = () => {
     const [description, setDescription] = useState(''); 
     const [estimatedTime, setEstimatedTime] = useState(''); 
     const [materialsNeeded, setMaterialsNeeded] = useState('');
-
+    const [errors, SetErrors] = useState([]);
     
 
 
@@ -51,20 +52,18 @@ const CreateCourse = () => {
             if (response.status === 201) {
                 console.log(`${course.title} has been successfully created`);
                navigate('/');
+            } else if (response.status === 400) {
+                const error = await response.json();
+                SetErrors(error.errors || ["Validation errors."]);
             } else {
                 console.log("Failure to create course. Please try again.");
             }
         } catch (error) {
-            if (error.response) {
-                if (error.response.status === 400 ) {
-                    console.log("400 error: bad request", error.response.data);
-                } else {
-                    console.log(`Error ${error.response.status} :`, error.response.data);
-                }
-            } else {
-                console.log("An unexpected error has occurred. Please try again.");
+            console.log("An unexpected error has occurred. Please try again.");
+            console.error( "error:", error);
+            SetErrors(error.response.data);
             }
-        }
+        
     };
 
     // cancel button event handler , navigate user back to root route
@@ -76,13 +75,7 @@ const CreateCourse = () => {
     return (
         <div className="wrap">
             <h2>Create Course</h2>
-            <div className="validation--errors">
-                <h3>Validation Errors</h3>
-                <ul>
-                    <li>Please provide a value for "Title"</li>
-                    <li>Please provide a value for "Description"</li>
-                </ul>
-            </div>
+            <ErrorsDisplay errors={errors} />
             <form onSubmit={handleSubmit}>
                 <div className="main--flex">
                     <div>

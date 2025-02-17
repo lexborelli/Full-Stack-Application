@@ -3,6 +3,9 @@ import UserContext from "../context/UserContext.jsx";
 import { useNavigate } from "react-router-dom"; 
 import { Link } from "react-router-dom";
 
+//imported errorsDisplay component 
+import ErrorsDisplay from "./ErrorsDisplay.jsx";
+
 const UserSignIn = () => {
     //userContext
     const { actions } = useContext(UserContext);
@@ -14,7 +17,7 @@ const UserSignIn = () => {
     // State
     const [emailAddress, setEmailAddress] = useState("");
     const [password, setPassword] = useState("");
-    const [errors, setErrors] = useState();
+    const [errors, setErrors] = useState([]);
 
     
 
@@ -55,9 +58,12 @@ const UserSignIn = () => {
         navigate("/"); 
     };
 
+    //passed ErrorsDisplay component with the prop errors and pass it the errors state
+
     return (
         <div className="form--centered">
             <h2>Sign In</h2>
+            <ErrorsDisplay errors={errors}  />
             <form onSubmit={handleSubmit}>
                 <label htmlFor="emailAddress">Email Address</label>
                 <input 

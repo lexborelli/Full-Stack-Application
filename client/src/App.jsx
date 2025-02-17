@@ -10,6 +10,7 @@ import UserSignUp from './components/UserSignUp';
 import UserSignOut from './components/UserSignOut';
 import CreateCourse from './components/CreateCourse';
 import UpdateCourse from './components/UpdateCourse';
+import ErrorsDisplay from './components/ErrorsDisplay';
 
 function App() {
 

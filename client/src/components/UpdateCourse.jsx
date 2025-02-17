@@ -2,6 +2,7 @@ import axios from "axios";
 import { useState, useEffect, useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import UserContext from "../context/UserContext"; 
+import ErrorsDisplay from "./ErrorsDisplay";
 
 const UpdateCourse = () => {
 
@@ -97,7 +98,15 @@ const UpdateCourse = () => {
             }
             
         } catch (error) {
-            setError(['An unexpected error has occurred.']);
+            if (error.response){
+                if (error.response.status === 403) {
+                    setError(['You are not an authorized user']);
+                } else if (error.response.status === 400) {
+                    setError(error.response.data.errors || ['There was a problem with updating the course.']);
+                } else {
+                    setError(['Sorry! An unexpected error has occurred.']);
+                }
+            }
             
         };
         
@@ -113,6 +122,7 @@ const UpdateCourse = () => {
     return ( 
         <div className="wrap">
             <h2>Update Course</h2>
+            <ErrorsDisplay errors={error} />
             <form onSubmit={handleSubmit}> 
                 <div className="main--flex">
                     <div>

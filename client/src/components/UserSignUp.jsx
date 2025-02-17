@@ -1,7 +1,12 @@
 import { useContext, useState } from "react"; 
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios"; 
+
+//imported User context component
 import UserContext from "../context/UserContext"; 
+
+//imported errorsDisplay component 
+import ErrorsDisplay from "../components/ErrorsDisplay";
 
 const UserSignUp = () => {
 
@@ -16,7 +21,7 @@ const UserSignUp = () => {
     const [lastName, setLastName] = useState('');
     const [emailAddress, setEmailAddress] = useState('');
     const [password, setPassword] = useState(''); 
-    const [error, setErrors] = useState([]); 
+    const [errors, setErrors] = useState([]); 
 
     //eventhandlers
 
@@ -83,6 +88,7 @@ const UserSignUp = () => {
     return (
         <div className="form--centered">
                 <h2>Sign Up</h2>
+                <ErrorsDisplay errors={errors} />
                 <form onSubmit={handleSubmit}>
                 <label htmlFor="firstName">
                     First Name
