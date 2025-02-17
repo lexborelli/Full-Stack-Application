@@ -72,6 +72,10 @@ const UpdateCourse = () => {
     // if the response status returns a 204 "No Content", meaning that the server successfully processed the clients request to change the course's title, description, materialsNeeded, and estimatedTime inputed by the user
     // the the user will be redirected to the specific course page that they changed to see that it was successfully changed, a console log message will display that the course was successfully changed
     //else, if the course was not updated or successfully changed then a console.log message will indicate that there was a problem
+    // catch block will check if there was an error response status of 403 and display a message to the user that they are an unauthorized user. They will not be able to update the course.
+    // else if the error response status is a 400, then it will display an array of errors to user by rendering ErrorsDisplay component in return statment or display a user message "There was a problem with updating the course." 
+    //else the catch block will display a message to the user that an unexpected error has occurred. 
+
     const handleSubmit = async (event) => {
         event.preventDefault();
 
@@ -102,7 +106,7 @@ const UpdateCourse = () => {
                 if (error.response.status === 403) {
                     setError(['You are not an authorized user']);
                 } else if (error.response.status === 400) {
-                    setError();
+                    setError(error.response.data.errors || ['There was a problem with updating the course.']);
                 } else {
                     setError(['Sorry! An unexpected error has occurred.']);
                 }

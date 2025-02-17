@@ -44,7 +44,7 @@ const UserSignUp = () => {
             const response = await axios.post("http://localhost:5000/api/users", user);
     
             //if servers response status of 201 then user was created, log user friendly message to console 
-            // if server return response status of 400 then I stored the data in the Api will respond with the error 
+            // if server return response status of 400, then it will display an array of errors to user by rendering ErrorsDisplay component in return statment or display a user message "There was a problem with creating the new user." 
             //to catch any other response that doesn't have a status code of 201 or 400
             
             if (response.status === 201) {

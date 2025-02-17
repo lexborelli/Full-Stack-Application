@@ -41,6 +41,12 @@ const CreateCourse = () => {
             materialsNeeded 
         };
 
+        ///in the try...catch block first creates variable called response that awaits for axios to create a new course.
+        //if the response status is 201 which means the course was created and the server didn't return any data "no content", then the console will display user friendly message that a new course was created and navigate user back to root route 
+        //else console log will inform user there was a failure to create the new course.
+        //the catch block will check if the error response is equal to a 400 status code, then it will display an array of errors to user by rendering ErrorsDisplay component in return statment or display a user message "There was a problem with creating the new course." 
+        //else the catch block will display a message to the user that an unexpected error has occurred. 
+
         try {
             const response = await axios.post('http://localhost:5000/api/courses', course, {
                 headers: {
