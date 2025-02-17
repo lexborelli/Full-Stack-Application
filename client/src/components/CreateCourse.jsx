@@ -25,7 +25,7 @@ const CreateCourse = () => {
     const [description, setDescription] = useState(''); 
     const [estimatedTime, setEstimatedTime] = useState(''); 
     const [materialsNeeded, setMaterialsNeeded] = useState('');
-    const [errors, SetErrors] = useState([]);
+    const [error, setError] = useState([]);
     
 
 
@@ -52,16 +52,17 @@ const CreateCourse = () => {
             if (response.status === 201) {
                 console.log(`${course.title} has been successfully created`);
                navigate('/');
-            } else if (response.status === 400) {
-                const error = await response.json();
-                SetErrors(error.errors || ["Validation errors."]);
             } else {
                 console.log("Failure to create course. Please try again.");
             }
         } catch (error) {
-            console.log("An unexpected error has occurred. Please try again.");
-            console.error( "error:", error);
-            SetErrors(error.response.data);
+            if (error.response) {
+                if (error.response.status === 400) {
+                    setError(error.response.data.errors || ['There was a problem creating the course.']);
+                } else {
+                    setError("An unexpected error has occurred. Please try again.");
+                }
+             } 
             }
         
     };
@@ -75,7 +76,7 @@ const CreateCourse = () => {
     return (
         <div className="wrap">
             <h2>Create Course</h2>
-            <ErrorsDisplay errors={errors} />
+            <ErrorsDisplay errors={error} />
             <form onSubmit={handleSubmit}>
                 <div className="main--flex">
                     <div>
