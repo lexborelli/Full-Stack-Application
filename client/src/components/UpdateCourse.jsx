@@ -102,7 +102,7 @@ const UpdateCourse = () => {
                 if (error.response.status === 403) {
                     setError(['You are not an authorized user']);
                 } else if (error.response.status === 400) {
-                    setError(error.response.data.errors || ['There was a problem with updating the course.']);
+                    setError();
                 } else {
                     setError(['Sorry! An unexpected error has occurred.']);
                 }

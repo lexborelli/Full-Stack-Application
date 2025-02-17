@@ -21,7 +21,7 @@ const UserSignUp = () => {
     const [lastName, setLastName] = useState('');
     const [emailAddress, setEmailAddress] = useState('');
     const [password, setPassword] = useState(''); 
-    const [errors, setErrors] = useState([]); 
+    const [error, setErrors] = useState([]); 
 
     //eventhandlers
 
@@ -63,17 +63,12 @@ const UserSignUp = () => {
         } catch (error) {
             if (error.response) {
                if (error.response.status === 400) {
-                console.log("400 Error: Bad Request ", error.response.data);
-                } else {
-                    console.log(`Error ${error.response.status}: , error response.data`);
-                    setErrors(["An unexpected error has occurred. Please try again."]);
-                }
-    
+                setErrors(error.response.data.errors || ['There was a problem with creating the new user.']);
             } else {
-                console.log("We did not recieve a response:", error); 
-                setErrors(["Please try again."]);
+                setErrors(["Please try again, We did not recieve a response."]);
+             }
             }
-        }
+        };
     };
 
 
@@ -88,7 +83,7 @@ const UserSignUp = () => {
     return (
         <div className="form--centered">
                 <h2>Sign Up</h2>
-                <ErrorsDisplay errors={errors} />
+                <ErrorsDisplay errors={error} />
                 <form onSubmit={handleSubmit}>
                 <label htmlFor="firstName">
                     First Name
@@ -150,6 +145,7 @@ const UserSignUp = () => {
             </p>
         </div>
     )
+
 };
 
-export default UserSignUp; 
+export default UserSignUp;
