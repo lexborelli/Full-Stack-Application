@@ -3,14 +3,18 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 //imported components
 import Header from './components/Header'; 
-import Courses from './components/Courses';
-import CourseDetail from './components/CourseDetail';
+import PrivateRoute from './components/PrivateRoute';
+
+//User components
 import UserSignIn from './components/UserSignin';
 import UserSignUp from './components/UserSignUp';
 import UserSignOut from './components/UserSignOut';
+
+// Course components 
+import Courses from './components/Courses';
+import CourseDetail from './components/CourseDetail';
 import CreateCourse from './components/CreateCourse';
 import UpdateCourse from './components/UpdateCourse';
-import ErrorsDisplay from './components/ErrorsDisplay';
 
 function App() {
 
