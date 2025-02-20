@@ -95,7 +95,7 @@ const CourseDetail = () => {
         <main>
             <div className="actions--bar">
                 <div className="wrap">
-                    {course.userId === authUser.id ? (
+                    {authUser && course.userId === authUser.id ? (
                         <>
                             <Link className="button" to={`/courses/${id}/update`}>
                                 Update Course
