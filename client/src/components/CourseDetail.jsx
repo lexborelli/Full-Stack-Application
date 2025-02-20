@@ -90,19 +90,29 @@ const CourseDetail = () => {
         //used ternary operator, if course has an author retrieve the first and last name of author if false (no author exist) return "author not found"
         //render the courses data an assigned it to each specific section to render to the "course detail" page.
         // Used the React Markdown package to render the description and materialsNeeded properties as Markdown.
-    return (
+        // used ternary operator, if the userId of the authUser matches the userId of the course, render the "Update Course" and "Delete Course" buttons, otherwise the "update course" "delete course" will be hidden from the user
+        return (
         <main>
             <div className="actions--bar">
                 <div className="wrap">
-                    <Link className="button" to={`/courses/${id}/update`}>
-                        Update Course
-                    </Link>
-                    <Link className="button" onClick={handleDelete}>
-                        Delete Course
-                    </Link>
-                    <Link className="button button-secondary" to="/">
-                        Return to List
-                    </Link>
+                    {course.userId === authUser.id ? (
+                        <>
+                            <Link className="button" to={`/courses/${id}/update`}>
+                                Update Course
+                            </Link>
+                            <Link className="button" onClick={handleDelete}>
+                                Delete Course
+                            </Link>
+                            <Link className="button button-secondary" to="/">
+                                Return to List
+                            </Link>
+                        </>
+                        
+                    ) : (
+                        <Link className="button button-secondary" to="/">
+                            Return to List
+                        </Link>
+                    )}  
                 </div>
             </div>
             <div className="wrap">
