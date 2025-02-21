@@ -41,7 +41,7 @@ const UserSignUp = () => {
 
         try {
             // make a post request to the server to create a new user
-            const response = await axios.post("http://localhost:5000/api/users", user);
+            const response = await axios.post("https://full-stack-application-production-b095.up.railway.app/api/users", user);
     
             //if servers response status of 201 then user was created, log user friendly message to console 
             // if server return response status of 400, then it will display an array of errors to user by rendering ErrorsDisplay component in return statment or display a user message "There was a problem with creating the new user." 

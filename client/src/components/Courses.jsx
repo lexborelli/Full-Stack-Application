@@ -11,7 +11,7 @@ const Courses = () => {
     useEffect(() => {
         const fetchCourses = async () => {
             try {
-                const response = await axios.get('http://localhost:5000/api/courses');
+                const response = await axios.get('https://full-stack-application-production-b095.up.railway.app/api/courses');
             //handle success
             setCourses(response.data); 
         }

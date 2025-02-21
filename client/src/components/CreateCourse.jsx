@@ -48,7 +48,7 @@ const CreateCourse = () => {
         //else the catch block will display a message to the user that an unexpected error has occurred. 
 
         try {
-            const response = await axios.post('http://localhost:5000/api/courses', course, {
+            const response = await axios.post('https://full-stack-application-production-b095.up.railway.app/api/courses', course, {
                 headers: {
                     "Content-Type": "application/json; charset=utf-8",
                     Authorization: `Basic ${authUser.authToken}`,

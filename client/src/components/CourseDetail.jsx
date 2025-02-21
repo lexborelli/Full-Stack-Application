@@ -25,7 +25,7 @@ const CourseDetail = () => {
         const fetchCourse = async () => {
             try {
                 //handle succes
-                const response = await axios.get(`http://localhost:5000/api/courses/${id}`);
+                const response = await axios.get(`https://full-stack-application-production-b095.up.railway.app/api/courses/${id}`);
                 setCourse(response.data);
             } catch (error) {
                 // catch error
@@ -57,7 +57,7 @@ const CourseDetail = () => {
         event.preventDefault(); 
 
         try {
-            const response = await axios.delete(`http://localhost:5000/api/courses/${id}`, {
+            const response = await axios.delete(`https://full-stack-application-production-b095.up.railway.app/api/courses/${id}`, {
                 headers: {
                     "Content-Type": "application/json; charset=utf-8",
                     Authorization: `Basic ${authUser.authToken}`,

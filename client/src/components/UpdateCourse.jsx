@@ -80,7 +80,7 @@ const UpdateCourse = () => {
         event.preventDefault();
 
         try {
-            const response = await axios.put(`http://localhost:5000/api/courses/${id}`, 
+            const response = await axios.put(`https://full-stack-application-production-b095.up.railway.app/api/courses/${id}`, 
                 {
                     title: course.title,
                     description: course.description,
