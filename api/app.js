@@ -1,5 +1,8 @@
 'use strict';
 
+// load environment variables from .env file
+require('dotenv').config();
+
 // load modules
 const express = require('express');
 const cors = require('cors');
@@ -13,7 +16,7 @@ app.use(express.json());
 
 //Configure CORS options
 const corsOption = {
-  origin: 'http://localhost:5173', // react app url 
+  origin: process.env.FRONTEND_URL || 'http://localhost:5173', // react app url to go to localhost for local developement 
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true, // enabling credentials if needed
 };
