@@ -1,1 +1,1 @@
-web: vite --host --port 5173
+web: vite --host --port 8080
