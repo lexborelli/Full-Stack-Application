@@ -16,7 +16,7 @@ app.use(express.json());
 
 //Configure CORS options
 const corsOption = {
-  origin: process.env.FRONTEND_URL, // react app url from railway 
+  origin: process.env.FRONTEND_URL || 'https://secure-charisma-production.up.railway.app' , // react app url from railway 
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true, // enabling credentials if needed
 };
