@@ -16,9 +16,10 @@ app.use(express.json());
 
 //Configure CORS options
 const corsOption = {
-  origin: process.env.FRONTEND_URL || 'http://localhost:5173', // react app url to go to localhost for local developement 
+  origin: ['https://secure-charisma-production.up.railway.app', 'http://localhost:5173'],
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true, // enabling credentials if needed
+  allowedHeaders: ['Content-Type', 'Authorization'],
 };
 
 //Enable CORS
