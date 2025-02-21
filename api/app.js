@@ -16,7 +16,7 @@ app.use(express.json());
 
 //Configure CORS options
 const corsOption = {
-  origin: process.env.FRONTEND_URL, // react app url to go to localhost for local developement 
+  origin: process.env.FRONTEND_URL, // react app url from railway 
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true, // enabling credentials if needed
 };
