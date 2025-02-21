@@ -31,7 +31,7 @@ const UpdateCourse = () => {
         const fetchCourse = async () => {
             try {
                 //handle succes
-                const response = await axios.get(`http://localhost:5000/api/courses/${id}`);
+                const response = await axios.get(`https://full-stack-application-production-b095.up.railway.app/api/courses/${id}`);
                 setCourse(response.data);
             } catch (error) {
                 // catch error

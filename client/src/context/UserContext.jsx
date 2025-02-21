@@ -38,7 +38,7 @@ export const UserProvider = ({ children }) => {
                     
                 },
             };
-            const response = await axios.get("http://localhost:5000/api/users", fetchOptions);
+            const response = await axios.get("https://full-stack-application-production-b095.up.railway.app/api/users", fetchOptions);
             //logged in response to the console
             console.log("Response data:", response.data);
             console.log("Response status:", response.status); 
