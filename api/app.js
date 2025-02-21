@@ -77,7 +77,7 @@ app.use((err, req, res, next) => {
   });
 });
 
-// set our port
+// set our port for railway
 const PORT = process.env.PORT || 5000;
 
 // start listening on our port
