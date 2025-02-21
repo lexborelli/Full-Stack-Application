@@ -78,9 +78,9 @@ app.use((err, req, res, next) => {
 });
 
 // set our port
-app.set('port', process.env.PORT || 5000);
+const PORT = process.env.PORT || 5000;
 
 // start listening on our port
-const server = app.listen(app.get('port'), () => {
-  console.log(`Express server is listening on port ${server.address().port}`);
+app.listen(PORT, '0.0.0.0', () => {  //  Modified: Added `'0.0.0.0'` to allow external connections
+  console.log(`Express server is listening on port ${PORT}`); //   Updated log message
 });
