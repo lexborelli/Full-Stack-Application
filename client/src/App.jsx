@@ -5,7 +5,7 @@ import Header from './components/Header';
 import PrivateRoute from './components/PrivateRoute';
 
 //User components
-import UserSignIn from './components/UserSignin';
+import UserSignIn from './components/UserSignIn';
 import UserSignUp from './components/UserSignUp';
 import UserSignOut from './components/UserSignOut';
 
